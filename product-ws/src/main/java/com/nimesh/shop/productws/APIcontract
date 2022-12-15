@@ -1,0 +1,44 @@
+request
+{
+    "productId": "p-102",
+    "name": "apple iphone",
+    "category":{
+        "categoryId":"mob-101",
+        "name": "IPhone",
+        "brand": "apple"
+    },
+    "price": 70000,
+    "discount": 20,
+    "description": "brand new IPhone 12",
+    "currency":"dollar",
+    "images":[
+        "image4.jpg",
+        "image23232.png"
+    ]
+}
+
+
+respone below
+
+{
+    "status": 1,
+    "success": true,
+    "message": "successfully created",
+    "result": {
+        "productId": "p-102",
+        "name": "apple iphone",
+        "category": {
+            "categoryId": "mob-101",
+            "name": "IPhone",
+            "brand": "apple"
+        },
+        "price": 70000.0,
+        "discount": 20.0,
+        "currency": "dollar",
+        "images": [
+            "image4.jpg",
+            "image23232.png"
+        ],
+        "description": "brand new IPhone 12"
+    }
+}
