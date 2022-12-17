@@ -6,6 +6,7 @@ import com.nimesh.shop.productws.dto.response.BaseResponse;
 import com.nimesh.shop.productws.dto.response.ProductResponse;
 import com.nimesh.shop.productws.entity.Product;
 import com.nimesh.shop.productws.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,17 +21,16 @@ import static org.springframework.http.HttpStatus.OK;
 @RequestMapping("/products/")
 public class ProductController {
 
-
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @PostMapping("/add")
-    public ResponseEntity<BaseResponse> addProducts(@RequestBody ProductRequest productRequest){
+    public ResponseEntity<BaseResponse> addProducts(@RequestBody @Valid ProductRequest productRequest) {
 
         ProductRequest savedProduct = productService.createList(productRequest);
         BaseResponse response = new BaseResponse();
 
-                 response = BaseResponse.builder()
+        response = BaseResponse.builder()
                 .statusCode(200)
                 .success(true)
                 .message("success")
@@ -38,28 +38,54 @@ public class ProductController {
                 .build();
         return new ResponseEntity<BaseResponse>(response, OK);
     }
+/*
 
     @GetMapping("/getAll")
-    public ResponseEntity<BaseResponse> getAllProducts(){
-        List<Product> productList = productService.getProducts();
+    public ResponseEntity<BaseResponse> getAllProducts() {
+        List<ProductResponse> productList = productService.getProducts();
         BaseResponse baseResponse = BaseResponse.builder()
                 .result(productList)
+                .statusCode(200)
+                .success(true)
+                .message("Fetched")
                 .build();
-        return new ResponseEntity<BaseResponse>(productList, OK);
+        return new ResponseEntity<BaseResponse>(baseResponse, OK);
 
     }
+*/
 
-    @GetMapping("/category/getAll")
-    public ResponseEntity<BaseResponse> getAllProducts(){
-        List<Product> productList = productService.getProducts();
-        Product productList1 = productList.get(0);
-
-        return new ResponseEntity<List<Product>>(productList, OK);
-
-    }
     // products / product id as parameter find and show that id
+    /*@GetMapping("/getViaProductId/{productId}")/
+    public ResponseEntity<BaseResponse> getProductViaId(@PathVariable String productId) {
+        ProductResponse response = productService.getProductViaId(productId);
+        BaseResponse baseResponse = new BaseResponse();
+
+        if (response != null) {
+            baseResponse = new BaseResponse(200, true, "fetched", response);
+
+        } else {
+            baseResponse = new BaseResponse(200, false, "not fetched", null);
+        }
+        return new ResponseEntity<BaseResponse>(baseResponse, OK);
+    }*/
     // products / product id as parameter update productbyId
+    @PutMapping("/updateViaProductId/{productId}")
+    public ResponseEntity<BaseResponse> updateViaId(@PathVariable String productId, @RequestBody ProductRequest productRequest){
+        ProductResponse response = productService.updateProductViaId(productId, productRequest);
+        BaseResponse baseResponse = new BaseResponse();
+        if(response != null){
+            baseResponse = new BaseResponse(200, true, "fetched", response);
+        }else{
+            baseResponse = new BaseResponse(200, true, "fetched", null);
+        }
+        return new ResponseEntity<BaseResponse>(baseResponse,OK);
+
+    }
     //    products / product id as parameter delete productById
+    /*@DeleteMapping("/deleteViaProductId/{productId}")
+    public ResponseEntity<BaseResponse> deleteViaId(@PathVariable String productId){
+
+    }*/
     //    products / product id as parameter deleteAll products
 
     //  /products/cateogry/findall
@@ -67,5 +93,6 @@ public class ProductController {
     // products / cateogry/id as parameter update productbyId
     //    products / product id as parameter delete productById
     //    products / product id as parameter deleteAll products
+
 
 }

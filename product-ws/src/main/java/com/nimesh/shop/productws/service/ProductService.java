@@ -7,9 +7,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface ProductService {
 ProductRequest createList(ProductRequest productRequest);
+//List<ProductResponse> getProducts();
+ProductResponse getProductViaId(String productId);
+ProductResponse updateProductViaId(String productId, ProductRequest productRequest);
 
-List<Product> getProducts();
+//ProductResponse deleteProductViaId(String productId);
 }
