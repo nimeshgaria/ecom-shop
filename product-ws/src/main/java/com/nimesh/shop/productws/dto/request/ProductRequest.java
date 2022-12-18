@@ -1,6 +1,7 @@
 package com.nimesh.shop.productws.dto.request;
 
 import com.nimesh.shop.productws.entity.Category;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,6 +20,8 @@ import java.util.List;
 @Builder
 public class ProductRequest {
 
+
+    private String productId;
     @NotNull
     @Size(min= 3, message = "Name can not be smaller than 3 ")
     private String name;

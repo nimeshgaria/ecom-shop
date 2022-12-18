@@ -1,6 +1,5 @@
 package com.nimesh.shop.productws.controller;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.nimesh.shop.productws.dto.request.ProductRequest;
 import com.nimesh.shop.productws.dto.response.BaseResponse;
 import com.nimesh.shop.productws.dto.response.ProductResponse;
@@ -10,9 +9,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -69,9 +65,9 @@ public class ProductController {
         return new ResponseEntity<BaseResponse>(baseResponse, OK);
     }*/
     // products / product id as parameter update productbyId
-    @PutMapping("/updateViaProductId/{productId}")
+    @PutMapping("/update/{productId}")
     public ResponseEntity<BaseResponse> updateViaId(@PathVariable String productId, @RequestBody ProductRequest productRequest){
-        ProductResponse response = productService.updateProductViaId(productId, productRequest);
+        ProductResponse response = productService.updateProductById(productId, productRequest);
         BaseResponse baseResponse = new BaseResponse();
         if(response != null){
             baseResponse = new BaseResponse(200, true, "fetched", response);
@@ -82,10 +78,12 @@ public class ProductController {
 
     }
     //    products / product id as parameter delete productById
-    /*@DeleteMapping("/deleteViaProductId/{productId}")
+    @DeleteMapping("/delete/{productId}")
     public ResponseEntity<BaseResponse> deleteViaId(@PathVariable String productId){
-
-    }*/
+        String message =  productService.deleteProduct(productId);
+        BaseResponse baseResponse = new BaseResponse(200,true, "deleted", message);
+        return new ResponseEntity<BaseResponse>(baseResponse,OK);
+    }
     //    products / product id as parameter deleteAll products
 
     //  /products/cateogry/findall
