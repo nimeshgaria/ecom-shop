@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "ECOM_PRODUCT")
+@Table(name = "ECOM_PRODUCT", uniqueConstraints = {@UniqueConstraint(columnNames = {"category_id"})})
 @Data
 @Builder
 @AllArgsConstructor
@@ -19,8 +19,8 @@ public class Product {
      @Id
     private String productId;
     private String name;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id",referencedColumnName = "categoryId")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true) //orphanRemoval necessary for deleting fields across all tables
+    @JoinColumn(name = "category_id",referencedColumnName = "categoryId", unique = true)
     private Category category;
     private int price;
     private int discount;

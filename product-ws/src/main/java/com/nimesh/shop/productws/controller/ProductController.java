@@ -84,8 +84,13 @@ public class ProductController {
         BaseResponse baseResponse = new BaseResponse(200,true, "deleted", message);
         return new ResponseEntity<BaseResponse>(baseResponse,OK);
     }
-    //    products / product id as parameter deleteAll products
-
+    //    products /  deleteAll products
+    @DeleteMapping("/deleteAll")
+    public ResponseEntity<BaseResponse> deletesAll(){
+        String confirmation= productService.deleteAllProducts();
+        BaseResponse baseResponse = new BaseResponse(200, true ,"all deleted ", confirmation);
+        return new ResponseEntity<>(baseResponse, OK);
+    }
     //  /products/cateogry/findall
     // products / cateogry/id as parameter find and show that id
     // products / cateogry/id as parameter update productbyId

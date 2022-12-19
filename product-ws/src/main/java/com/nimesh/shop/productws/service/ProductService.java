@@ -12,5 +12,6 @@ ProductResponse getProductViaId(String productId);
 ProductResponse updateProductById(String productId, ProductRequest productRequest);
 String deleteProduct(String productId);
 
+String deleteAllProducts();
 //ProductResponse deleteProductViaId(String productId);
 }

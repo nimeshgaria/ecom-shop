@@ -114,5 +114,10 @@ public class ProductServiceImpl implements ProductService {
        //
 */
     }
+    @Override
+    public String deleteAllProducts(){
+         productRepository.deleteAll();
+        return "All products deleted";
+    }
     }
 
