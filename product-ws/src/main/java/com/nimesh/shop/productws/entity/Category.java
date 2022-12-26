@@ -1,9 +1,6 @@
 package com.nimesh.shop.productws.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Category {
-    @Id
+   @Id
+  //  @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String categoryId;
     private String name;
     private String brand;
