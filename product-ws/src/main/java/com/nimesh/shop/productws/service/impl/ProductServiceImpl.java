@@ -6,6 +6,7 @@ import com.nimesh.shop.productws.entity.Category;
 import com.nimesh.shop.productws.entity.Product;
 import com.nimesh.shop.productws.repository.ProductRepository;
 import com.nimesh.shop.productws.service.ProductService;
+import com.nimesh.shop.productws.util.ModelMapperHelper;
 import com.nimesh.shop.productws.util.ProductServiceUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    private List<Product> productList = new ArrayList<>();
-    private List<Category> categoryList = new ArrayList<>();
-
-    private List<String> stringList = new ArrayList<>();
 
     private List<ProductResponse> productResponseList = new ArrayList<>();
 
@@ -31,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductRequest createList(ProductRequest productRequest) {
 
         Product p = Product.builder()
-                .productId(ProductServiceUtil.productIdGenerator(productRequest))
+                .productId(productRequest.getProductId())
                 .name(productRequest.getName())
                 .category(productRequest.getCategory())
                 .discount(productRequest.getDiscount())
@@ -66,11 +63,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse updateProductViaId(String productId, ProductRequest productRequest){
-        for(int i=0; i<productResponseList.size(); i++){
+    public ProductResponse updateProductById(String productId, ProductRequest productRequest){
+      /*  for(int i=0; i<productResponseList.size(); i++){
             if(productResponseList.get(i).getProductId().equals(productId)){
-             /*   productResponseList.remove(i);
-                productList.remove(i);*/
+             *//*   productResponseList.remove(i);
+                productList.remove(i);*//*
                 productResponseList.set(i,ProductResponse.builder()
                         .productId(ProductServiceUtil.productIdGenerator(productRequest))
                         .category(productRequest.getCategory())
@@ -80,7 +77,7 @@ public class ProductServiceImpl implements ProductService {
                         .description(productRequest.getDescription())
                         .images(productRequest.getImages())
                         .build());
-                /*productResponseList.add(i,ProductResponse.builder()
+                *//*productResponseList.add(i,ProductResponse.builder()
                         .productId(ProductServiceUtil.productIdGenerator(productRequest))
                         .category(productRequest.getCategory())
                         .name(productRequest.getName())
@@ -88,30 +85,39 @@ public class ProductServiceImpl implements ProductService {
                         .currency(productRequest.getCurrency())
                         .description(productRequest.getDescription())
                         .images(productRequest.getImages())
-                        .build());*/
+                        .build());*//*
             }
             return productResponseList.get(i);
-        }
+        }*/
+        Product product = productRepository.findByProductId(productId);
+        productRepository.save(ModelMapperHelper.mapToObject(productRequest,Product.class));
         return null;
     }
-
-   /* @Override
-    public ProductResponse deleteProductViaId(String productId) {
-        for(int i =0 ; i< productResponseList.size(); i++){
+    @Override
+    public String deleteProduct(String productId) {
+        Product productToDelete = productRepository.findByProductId(productId);
+        productRepository.delete(productToDelete);
+        return "Product has been deleted" +productId;
+        /* for(int i =0 ; i< productResponseList.size(); i++){
             if(productResponseList.get(i).getProductId().equals(productId)){
                return productList.remove(productResponseList.get(i));
             }
         }
         return null;
-    }*/
-    /*  productResponseList =  productList.stream().map(product -> {
+    }
+      productResponseList =  productList.stream().map(product -> {
             return ProductResponse.builder()
                     .productId("234")
                     .name(product.getName())
                     .build();
-        }).collect(Collectors.toList());*/
+        }).collect(Collectors.toList());
        //
-
-
+*/
+    }
+    @Override
+    public String deleteAllProducts(){
+         productRepository.deleteAll();
+        return "All products deleted";
+    }
     }
 
