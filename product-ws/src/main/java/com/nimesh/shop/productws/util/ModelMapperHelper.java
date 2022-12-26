@@ -14,6 +14,7 @@ class T <T>{
         this.obj = obj;
     }
     public T getObj(){
+
         return obj;
     }
 }
